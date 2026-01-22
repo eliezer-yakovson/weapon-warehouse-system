@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: weapon-api
+spec:
+  selector:
+    app: weapon-api
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+      protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weapon-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: weapon-api
+  template:
+    metadata:
+      labels:
+        app: weapon-api
+    spec:
+      containers:
+        - name: weapon-api
+          image: eliezer206568107/weapon-api:v1
+          ports:
+            - containerPort: 8000
+              name: http
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "8000"
+            - name: DB_HOST
+              value: "mysql-0.mysql"
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_USER
+              value: "root"
+            - name: MYSQL_DATABASE
+              value: "weapon_db"
+            - name: MYSQL_ROOT_PASSWORD
+              value: "1234"
+

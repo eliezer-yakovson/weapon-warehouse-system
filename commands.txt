@@ -1,0 +1,18 @@
+docker build -t weapon-api:v1 .
+
+docker login
+
+docker tag weapon-api:v1 eliezer206568107/weapon-api:v1
+
+docker push eliezer206568107/weapon-api:v1
+
+kubectl apply -f k8s/
+
+oc expose service weapon-api    
+
+oc get pods
+
+oc get services
+
+oc get routes
+
